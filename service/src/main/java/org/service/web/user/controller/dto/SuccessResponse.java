@@ -4,13 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.service.web.exception.dto.SuccessfulResponse;
 
 @Data
 @AllArgsConstructor
 @ToString(callSuper = true)
 @Accessors(chain = true)
-public class SuccessResponse extends SuccessfulResponse {
+public class SuccessResponse{
 
     private String message;
 }

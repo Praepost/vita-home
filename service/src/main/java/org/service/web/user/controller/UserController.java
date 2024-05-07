@@ -1,12 +1,14 @@
 package org.service.web.user.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.service.web.user.controller.dto.*;
+import org.service.web.user.controller.dto.OperatorRequst;
+import org.service.web.user.controller.dto.SuccessResponse;
+import org.service.web.user.controller.dto.UsersContaining;
+import org.service.web.user.controller.dto.UsersResponse;
 import org.service.web.user.entity.Role;
 import org.service.web.user.entity.User;
 import org.service.web.user.entity.repository.RoleRepository;
 import org.service.web.user.entity.repository.UserRepo;
-import org.service.web.user.exception.UserRegisterException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
