@@ -1,10 +1,10 @@
 package org.service.config.security;
 
-import java.util.Collection;
-
 import org.service.web.user.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
 
 public class CustomUserDetails implements UserDetails {
 

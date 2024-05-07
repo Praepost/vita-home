@@ -9,7 +9,6 @@ import org.service.web.user.entity.repository.UserRepo;
 import org.service.web.user.exception.UserRegisterException;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

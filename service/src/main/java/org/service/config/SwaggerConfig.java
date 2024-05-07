@@ -16,9 +16,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * http://springfox.github.io/springfox/docs/current/#springfox-swagger2-with-spring-mvc-and-spring-boot
- */
 @Configuration
 @ConditionalOnProperty("swagger.enabled")
 @EnableSwagger2
@@ -31,7 +28,6 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                // Restrict to RestController. Otherwise Spring Actuator's API will be exposed too.
                 .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
                 .build()
                 .apiInfo(apiEndPointsInfo())

@@ -30,16 +30,6 @@ public class SecurityConfig {
                                 new AntPathRequestMatcher("/h2-console/**"));
     }
 
-    // If you inject user details service to httpSecurity,
-    // you don't need to create authenticationManager bean.
-    // Otherwise, if you create authenticationManager bean, don't need to inject userDetailsService
-
-    //  @Bean
-    //  public AuthenticationManager authenticationManager(
-    //      AuthenticationConfiguration authenticationConfiguration) throws Exception {
-    //    return authenticationConfiguration.getAuthenticationManager();
-    //  }
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity

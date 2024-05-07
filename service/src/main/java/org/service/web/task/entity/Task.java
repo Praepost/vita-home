@@ -1,8 +1,6 @@
 package org.service.web.task.entity;
 
 import lombok.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.service.web.user.entity.User;
 
 import javax.persistence.*;
