@@ -1,4 +1,4 @@
-package org.service.config.security;
+package org.service.security;
 
 import lombok.RequiredArgsConstructor;
 import org.service.web.task.exception.EntityNotFoundException;
