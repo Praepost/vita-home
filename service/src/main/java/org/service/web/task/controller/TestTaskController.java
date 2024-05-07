@@ -15,25 +15,34 @@ import org.service.web.user.entity.repository.UserRepo;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.transaction.Transactional;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
 @RestController
 @RequiredArgsConstructor
-public class TestTaskController implements ITaskController{
+public class TestTaskController{
 
     private final TaskRepo taskRepo;
     private final UserRepo userRepo;
     private final StatusRepo statusRepo;
 
-    @Override
-    public SuccessResponse registration(CreateTaskRequest request) {
+    @PreAuthorize("hasRole('Пользователь')")
+    @Transactional
+    @PostMapping("/create/")
+    public SuccessResponse registration(@Valid @RequestBody CreateTaskRequest request) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepo.getUserByUsername(username);
         HashSet<User> users = new HashSet<>();
@@ -54,8 +63,10 @@ public class TestTaskController implements ITaskController{
         return new SuccessResponse("Черновик сохранен");
     }
 
-    @Override
-    public SuccessResponse storage(StorageRequest request) {
+    @PreAuthorize("hasRole('Пользователь')")
+    @Transactional
+    @PostMapping("/storage/")
+    public SuccessResponse storage(@Valid @RequestBody StorageRequest request) {
         List<Statuses> statuses = new ArrayList<>();
         statuses.add(statusRepo.findByName("отправлено"));
 
@@ -70,8 +81,11 @@ public class TestTaskController implements ITaskController{
         return new SuccessResponse("Успешно отправленно");
     }
 
-    @Override
-    public SuccessResponse edit(EditRequest request) {
+
+    @PreAuthorize("hasRole('Пользователь')")
+    @Transactional
+    @PostMapping("/edit/")
+    public SuccessResponse edit(@Valid @RequestBody EditRequest request) {
 
         Task task = taskRepo.findByName(request.getName());
         if (task.getStatuses().stream()
@@ -84,8 +98,11 @@ public class TestTaskController implements ITaskController{
         return new SuccessResponse("Успешно обновленно");
     }
 
-    @Override
-    public TaskResponse look(TaskRequest request) {
+
+    @PreAuthorize("hasAnyRole('Пользователь', 'Оператор')")
+    @Transactional
+    @PostMapping("/look/")
+    public TaskResponse look(@Valid @RequestBody TaskRequest request) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepo.getUserByUsername(username);
         String result = "";
@@ -110,8 +127,10 @@ public class TestTaskController implements ITaskController{
         return new TaskResponse(task.getId(), task.getName(), result, task.getAuthor().stream().findFirst().get().getUsername(), task.getTimestamp());
     }
 
-    @Override
-    public TasksResponse lookAuthor(TasksRequest request) {
+    @PreAuthorize("hasAnyRole('Пользователь', 'Оператор')")
+    @Transactional
+    @PostMapping("/look/author/")
+    public TasksResponse lookAuthor(@Valid @RequestBody TasksRequest request) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepo.getUserByUsername(username);
 
@@ -136,8 +155,10 @@ public class TestTaskController implements ITaskController{
         return new TasksResponse(tasks);
     }
 
-    @Override
-    public TasksResponse lookAll(AllTaskRequest request) {
+    @PreAuthorize("hasRole('Оператор')")
+    @Transactional
+    @GetMapping("/look/all/")
+    public TasksResponse lookAll(@Valid @RequestBody AllTaskRequest request) {
 
         Pageable pages = null;
         if(request.getDesc()){
@@ -153,8 +174,10 @@ public class TestTaskController implements ITaskController{
         return new TasksResponse(tasks);
     }
 
-    @Override
-    public SuccessResponse update(ChangeStatusRequest request) {
+    @PreAuthorize("hasRole('Оператор')")
+    @Transactional
+    @PostMapping("/update/")
+    public SuccessResponse update(@Valid @RequestBody ChangeStatusRequest request) {
         List<Statuses> statuses = new ArrayList<>();
         statuses.add(statusRepo.findByName(request.getStatus()));
 
