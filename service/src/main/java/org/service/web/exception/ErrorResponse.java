@@ -3,7 +3,6 @@ package org.service.web.exception;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.ToString;
-import org.service.web.exception.Error;
 import org.service.web.exception.dto.Response;
 import org.service.web.exception.dto.ResponseStatus;
 
